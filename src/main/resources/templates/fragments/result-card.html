@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="result-card" th:fragment="~{}">
+    <div class="result-header">
+        <span class="result-operation" th:text="${result.operation}">Operation</span>
+        <span class="result-duration" th:text="${result.durationMs + 'ms'}">0ms</span>
+    </div>
+    <div class="result-body" th:text="${result.output}">
+        Result text here...
+    </div>
+</div>
+</body>
+</html>

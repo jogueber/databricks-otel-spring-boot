@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Toolkit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+    <header>
+        <h1>AI Text Toolkit</h1>
+        <p class="subtitle">Powered by Databricks Foundation Model API &bull; Traced with OpenTelemetry</p>
+    </header>
+
+    <main>
+        <section class="input-panel">
+            <label for="text-input">Your Text</label>
+            <textarea id="text-input" name="text" rows="12"
+                      placeholder="Paste or type your text here..."></textarea>
+
+            <div class="actions">
+                <button class="btn btn-primary"
+                        hx-post="/api/summarize"
+                        hx-target="#summarize-result"
+                        hx-include="#text-input"
+                        hx-indicator="#summarize-loading">
+                    Summarize
+                </button>
+                <button class="btn btn-primary"
+                        hx-post="/api/extract"
+                        hx-target="#extract-result"
+                        hx-include="#text-input"
+                        hx-indicator="#extract-loading">
+                    Extract Topics
+                </button>
+
+                <div class="tone-group">
+                    <select id="tone-select" name="tone" class="tone-select">
+                        <option value="formal">Formal</option>
+                        <option value="casual">Casual</option>
+                    </select>
+                    <button class="btn btn-primary"
+                            hx-post="/api/tone"
+                            hx-target="#tone-result"
+                            hx-include="#text-input, #tone-select"
+                            hx-indicator="#tone-loading">
+                        Change Tone
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-panel">
+            <div class="result-slot">
+                <h3>Summary</h3>
+                <div class="loading-indicator" id="summarize-loading">
+                    <div class="spinner"></div>
+                    <span>Generating summary...</span>
+                </div>
+                <div id="summarize-result"></div>
+            </div>
+
+            <div class="result-slot">
+                <h3>Topics &amp; Entities</h3>
+                <div class="loading-indicator" id="extract-loading">
+                    <div class="spinner"></div>
+                    <span>Extracting topics...</span>
+                </div>
+                <div id="extract-result"></div>
+            </div>
+
+            <div class="result-slot">
+                <h3>Tone Rewrite</h3>
+                <div class="loading-indicator" id="tone-loading">
+                    <div class="spinner"></div>
+                    <span>Rewriting tone...</span>
+                </div>
+                <div id="tone-result"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Demo: OpenTelemetry Ingestion to Databricks Unity Catalog</p>
+    </footer>
+</body>
+</html>

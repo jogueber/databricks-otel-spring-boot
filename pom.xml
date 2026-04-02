@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.databricks.jg</groupId>
+	<artifactId>ai-tracing-otel</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<java.version>25</java.version>
+		<spring-ai.version>2.0.0-M3</spring-ai.version>
+		<otel-instrumentation.version>2.14.0-alpha</otel-instrumentation.version>
+		<otel-api-incubator.version>1.55.0-alpha</otel-api-incubator.version>
+		<databricks-sdk.version>0.103.0</databricks-sdk.version>
+		<htmx-spring-boot.version>5.0.0</htmx-spring-boot.version>
+		<!-- Override protobuf-java to resolve conflict with OTel OTLP exporter (transitive brings 3.x) -->
+		<protobuf-java.version>4.32.0</protobuf-java.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.ai</groupId>
+				<artifactId>spring-ai-bom</artifactId>
+				<version>${spring-ai.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf-java.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<!-- Spring AI -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-starter-model-openai</artifactId>
+		</dependency>
+
+		<!-- OpenTelemetry -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-opentelemetry</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-otlp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-api-incubator</artifactId>
+			<version>${otel-api-incubator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-logback-appender-1.0</artifactId>
+			<version>${otel-instrumentation.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-micrometer-1.5</artifactId>
+			<version>${otel-instrumentation.version}</version>
+		</dependency>
+
+		<!-- Databricks -->
+		<dependency>
+			<groupId>com.databricks</groupId>
+			<artifactId>databricks-sdk-java</artifactId>
+			<version>${databricks-sdk.version}</version>
+		</dependency>
+
+		<!-- Frontend -->
+		<dependency>
+			<groupId>io.github.wimdeblauwe</groupId>
+			<artifactId>htmx-spring-boot</artifactId>
+			<version>${htmx-spring-boot.version}</version>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-opentelemetry-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
