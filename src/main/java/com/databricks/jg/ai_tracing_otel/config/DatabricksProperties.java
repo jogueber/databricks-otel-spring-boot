@@ -10,14 +10,8 @@ public record DatabricksProperties(
     public record OtelProperties(
         String catalog,
         String schema,
-        String tablePrefix,
-        ExportMode exportMode,
-        String zerobusEndpoint
+        String tablePrefix
     ) {
-        /** mlflow = OTLP/HTTP to the MLflow endpoint (traces visible in Experiments UI).
-         *  zerobus = OTLP/gRPC to the Zerobus endpoint (raw Delta tables, more efficient). */
-        public enum ExportMode { MLFLOW, ZEROBUS }
-
         public String spansTable() {
             return catalog + "." + schema + "." + tablePrefix + "_spans";
         }
